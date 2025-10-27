@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, mongo } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 // defining the types for the schema
 export interface Message extends Document {
