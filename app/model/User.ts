@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { Message } from "./Message";
+import MessageModel, { Message } from "./Message";
 
 // defining the types for the schema
 export interface User extends Document {
@@ -13,7 +13,7 @@ export interface User extends Document {
   messages: Message[];
 }
 
-const userSchema: Schema<User> = new Schema({
+const UserSchema: Schema<User> = new Schema({
   userName: {
     type: String,
     required: [true, "Please enter UserName"],
@@ -47,5 +47,10 @@ const userSchema: Schema<User> = new Schema({
     type: Boolean,
     required: true,
   },
-  messages: [messageSchema],
+  messages: [MessageModel],
 });
+const UserModel =
+  (mongoose.models.User as mongoose.Model<User>) ||
+  mongoose.model<User>("User", UserSchema);
+
+export default UserSchema;
