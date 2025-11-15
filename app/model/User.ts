@@ -1,9 +1,9 @@
 import mongoose, { Schema, Document } from "mongoose";
-import MessageModel, { Message } from "./Message";
+import { Message } from "./Message";
 
 // defining the types for the schema
 export interface User extends Document {
-  userName: string;
+  username: string;
   password: string;
   email: string;
   verifyCode: string;
@@ -14,7 +14,7 @@ export interface User extends Document {
 }
 
 const UserSchema: Schema<User> = new Schema({
-  userName: {
+  username: {
     type: String,
     required: [true, "Please enter UserName"],
     unique: true,
@@ -47,7 +47,12 @@ const UserSchema: Schema<User> = new Schema({
     type: Boolean,
     required: true,
   },
-  messages: [MessageModel],
+  messages: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Message",
+    },
+  ],
 });
 const UserModel =
   (mongoose.models.User as mongoose.Model<User>) ||
