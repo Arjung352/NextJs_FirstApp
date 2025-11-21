@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import dbConnect from "@/app/lib/dbConnection";
-import UserModel from "@/app/model/User";
+import dbConnect from "@/lib/dbConnection";
+import UserModel from "@/model/User";
 
 export const authOptions: NextAuthOptions = {
   providers: [
