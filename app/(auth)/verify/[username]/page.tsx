@@ -20,19 +20,19 @@ import * as z from "zod";
 
 function VerifyAccount() {
   const router = useRouter();
-  const param = useParams<{ username: string }>();
+  const params = useParams<{ username: string }>();
   const form = useForm<z.infer<typeof verifySchemaValidation>>({
     resolver: zodResolver(verifySchemaValidation),
   });
 
   const onSubmit = async (data: z.infer<typeof verifySchemaValidation>) => {
     try {
-      const response = await axios.post("api/verify-code", {
-        username: param.username,
+      const response = await axios.post("/api/verify-code", {
+        username: params.username,
         code: data.code,
       });
       toast.success(response.data.message);
-      router.replace("sign-in");
+      router.replace("/sign-in");
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       console.error("Error during verification:", axiosError.response?.data);
