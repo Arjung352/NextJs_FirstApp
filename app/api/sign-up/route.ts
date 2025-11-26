@@ -7,7 +7,8 @@ export async function POST(request: Request) {
   await dbConnect();
   try {
     const { username, email, password } = await request.json();
-    console.log({ UserName: username, Email: email, password: password });
+    const lowerEmail = email.toLowerCase();
+    console.log({ UserName: username, Email: lowerEmail, password: password });
 
     // find wheather a user is already verified and exists
     const existingUserVerifiedByUsername = await UserModel.findOne({
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const existingUserByEmail = await UserModel.findOne({ email });
+    const existingUserByEmail = await UserModel.findOne({ email: lowerEmail });
     const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
 
     // if a user is and exists but with the email id
@@ -59,7 +60,7 @@ export async function POST(request: Request) {
       const newUser = new UserModel({
         username,
         password: hashPassword,
-        email,
+        email: lowerEmail,
         verifyCode,
         isVerifie: false,
         verifyCodeExpiry: expiryDate,
@@ -72,7 +73,7 @@ export async function POST(request: Request) {
 
     // send Verification Email
     const emailVerification = await sendVerificationEmail(
-      email,
+      lowerEmail,
       username,
       verifyCode
     );

@@ -3,7 +3,7 @@ import { z } from "zod";
 export const userNameValidation = z
   .string()
   .min(3, { message: "Username should be at least 3 characters long" })
-  .max(20, { message: "Username should not exceed 20 characters" })
+  .max(10, { message: "Username should not exceed 10 characters" })
   .regex(/^[A-Za-z0-9 _-]+$/, {
     message:
       "Username must not contain special characters other than '-' or '_'",

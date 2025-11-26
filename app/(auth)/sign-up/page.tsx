@@ -1,11 +1,10 @@
 "use client";
-
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDebounceValue, useDebounceCallback } from "usehooks-ts";
+import { useDebounceCallback } from "usehooks-ts";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -75,8 +74,9 @@ export default function SignUpForm() {
 
       setIsSubmitting(false);
     } catch (error) {
-      console.error("Error during sign-up:", error);
-      toast.error("There was a problem with your sign-up. Please try again.");
+      const axiosError = error as AxiosError<ApiResponse>;
+      console.error("Error during sign-up:", axiosError.response?.data);
+      toast.error(axiosError.response?.data.message ?? "Error during sign-up");
       setIsSubmitting(false);
     }
   };
@@ -128,7 +128,7 @@ export default function SignUpForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <Input {...field} name="email" />
-                  <p className="text-muted text-gray-400 text-sm">
+                  <p className="text-gray-700 text-sm">
                     We will send you a verification code
                   </p>
                   <FormMessage />
@@ -161,7 +161,7 @@ export default function SignUpForm() {
         </Form>
         <div className="text-center mt-4">
           <p>
-            Already a member?{" "}
+            Already a member?
             <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
               Sign in
             </Link>
