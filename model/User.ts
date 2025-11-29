@@ -18,12 +18,14 @@ const UserSchema: Schema<User> = new Schema({
     type: String,
     required: [true, "Please enter UserName"],
     unique: true,
+    lowercase: true,
     trim: true,
   },
   email: {
     type: String,
     required: [true, "Please enter Email"],
     unique: true,
+    lowercase: true,
     match: [/.+\@.+\..+/, "please use a valid email format"],
   },
   password: {
