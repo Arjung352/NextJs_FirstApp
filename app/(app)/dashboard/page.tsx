@@ -51,7 +51,7 @@ function Dashboard() {
       setIsLoading(true);
       setIsSwitchLoaing(false);
       try {
-        const response = await axios.get<ApiResponse>("/api/get-message");
+        const response = await axios.get<ApiResponse>("/api/get-messages");
         setMessage(response.data?.messages || []);
         if (refresh) {
           toast.success("refreshed messages");
@@ -91,20 +91,18 @@ function Dashboard() {
       );
     }
   };
-
+  if (!session || !session.user) {
+    return <div>Please login</div>;
+  }
   const { username } = session?.user as User;
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
   const profileUrl = `${baseUrl}/u/${username}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
-    console.log(window);
-    console.log(navigator);
     toast.success("copied to clipboard");
   };
-  if (!session || !session.user) {
-    return <div>Please login</div>;
-  }
+
   return (
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
       <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
